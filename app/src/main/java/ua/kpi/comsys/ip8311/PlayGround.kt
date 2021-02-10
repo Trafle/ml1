@@ -82,6 +82,6 @@ fun main () {
     println(koi2.method2_xxx())
     println()
     var ko = koi.method3(koi3)
-    println('Method 4 is static')
+    println("Method 4 is static")
     var koo = CoordinateIK.method4(koi, koi3)
 }
