@@ -1,2 +1,2 @@
 # ml1
-![caption](/video_presentation.gif / GIF)
+![](video_presentation.gif)
