@@ -41,14 +41,10 @@ class BookAdapter (val context: Context, private val dataSource: MutableList<Boo
         val priceTextView = view.findViewById(R.id.price) as TextView
         val bookIconImageView = view.findViewById(R.id.image) as ImageView
 
-        val titleTypeFace = ResourcesCompat.getFont(context, R.font.minecrafter)
+        val titleTypeFace = ResourcesCompat.getFont(context, R.font.robotocondensed_light)
         titleTextView.typeface = titleTypeFace
-
-        val subtitleTypeFace = ResourcesCompat.getFont(context, R.font.minecraft_pe)
-        subtitleTextView.typeface = subtitleTypeFace
-
-        val priceTypeFace = ResourcesCompat.getFont(context, R.font.pixelmania)
-        priceTextView.typeface = priceTypeFace
+        subtitleTextView.typeface = titleTypeFace
+        priceTextView.typeface = titleTypeFace
 
         val book = getItem(position) as Book
         titleTextView.text = book.title
@@ -62,14 +58,16 @@ class BookAdapter (val context: Context, private val dataSource: MutableList<Boo
             }
         }
 
-        subtitleTextView.setTextSize(12F)
-        priceTextView.setTextSize(8F)
-        titleTextView.setTextSize(20F)
+        titleTextView.setTextSize(17F)
+        subtitleTextView.setTextSize(14F)
+        priceTextView.setTextSize(14F)
 
         val ims: InputStream = context.assets.open(book.image)
         val d = Drawable.createFromStream(ims, null)
         bookIconImageView.setImageDrawable(d)
 
+        var ps = -35 // Padding Size
+        bookIconImageView.setPadding(ps,ps,ps,ps)
         return view
     }
 
@@ -80,8 +78,8 @@ class BookAdapter (val context: Context, private val dataSource: MutableList<Boo
         var price = book.price
         var image: String = book.image
 
-        val titleLength = 30
-        val subtitleLength = 50
+        val titleLength = 50
+        val subtitleLength = 75
 
         if (book.title.length > titleLength) {
             title = book.title.substring(0, titleLength)
