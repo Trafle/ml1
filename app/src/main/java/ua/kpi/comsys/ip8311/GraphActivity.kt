@@ -13,13 +13,13 @@ import com.google.android.material.tabs.TabLayout
 import kotlin.math.cos
 import android.graphics.Color
 
-class TertiaryActivity : Fragment () {
+class GraphActivity : Fragment () {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.tertiary_activity, container, false)
+        val view = inflater.inflate(R.layout.graph_activity, container, false)
         return view
     }
 
@@ -57,11 +57,8 @@ class TertiaryActivity : Fragment () {
         vl.lineWidth = 3f
         vl.fillColor = R.color.black
         vl.fillAlpha = R.color.black
-
         lineChart.xAxis.labelRotationAngle = 0f
-
         lineChart.data = LineData(vl)
-
         lineChart.xAxis.axisMaximum = 20.1f
         lineChart.xAxis.axisMinimum = -20.1f
 

@@ -19,9 +19,9 @@ class MainActivity : AppCompatActivity() {
             override fun getItemCount(): Int = 3;
             override fun createFragment(position: Int): Fragment {
                 if (position == 0) {
-                    return SecondaryActivity()
+                    return BusinessCardActivity()
                 } else if (position == 1) {
-                    return TertiaryActivity()
+                    return GraphActivity()
                 } else if (position == 2){
                     return BooksActivity()
                 } else {
