@@ -10,19 +10,19 @@ import com.google.android.material.tabs.TabLayoutMediator
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
-        println("WENT INTO MAIN ACTIVITY")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 //        setContentView(R.layout.secondary_activity)
-        var vp2 : ViewPager2 = findViewById(R.id.kakoi_nebud)
-
+        var vp2 : ViewPager2 = findViewById(R.id.viewpager)
         vp2.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount(): Int = 2;
+            override fun getItemCount(): Int = 3;
             override fun createFragment(position: Int): Fragment {
                 if (position == 0) {
                     return SecondaryActivity()
                 } else if (position == 1) {
                     return TertiaryActivity()
+                } else if (position == 2){
+                    return BooksActivity()
                 } else {
                     return error("lol")
                 }
@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         var tabLayout : TabLayout = findViewById(R.id.tabLayout)
-        TabLayoutMediator(tabLayout, vp2) { tab, position ->
+        TabLayoutMediator(tabLayout, vp2) { tab, _ ->
             vp2.setCurrentItem(tab.position, true)
         }.attach()
 
@@ -45,6 +45,12 @@ class MainActivity : AppCompatActivity() {
                 vp2.setCurrentItem(1)
             }
         }?.setIcon(R.drawable.ic_tab_secondary)?.setText("STUFF")
+
+        tabLayout.getTabAt(2)?.apply {
+            customView?.setOnClickListener(){
+                vp2.setCurrentItem(2)
+            }
+        }?.setIcon(R.drawable.ic_tab_books)?.setText("BOOKS")
     }
 
 }

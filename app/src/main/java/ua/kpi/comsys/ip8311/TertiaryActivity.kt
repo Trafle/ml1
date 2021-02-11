@@ -19,7 +19,6 @@ class TertiaryActivity : Fragment () {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        println("WENT INTO TER ACTIVITY")
         val view = inflater.inflate(R.layout.tertiary_activity, container, false)
         return view
     }
@@ -28,7 +27,6 @@ class TertiaryActivity : Fragment () {
         val lineChart: LineChart = view.findViewById(R.id.lineChart)
         val pieChart: PieChart = view.findViewById(R.id.pieChart)
         val tabLayout : TabLayout = view.findViewById(R.id.tabs)
-        lineChart.visibility = View.VISIBLE
 
         tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
             override fun onTabSelected(tab: TabLayout.Tab) {

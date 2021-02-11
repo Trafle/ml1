@@ -12,7 +12,6 @@ class SecondaryActivity : Fragment () {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        println("WENT INTO SEC ACTIVITY")
         return inflater.inflate(R.layout.secondary_activity, container, false)
     }
 }

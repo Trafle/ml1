@@ -29,13 +29,15 @@
         android:id="@+id/lineChart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="120dp"
-        android:layout_marginBottom="250dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="65dp"
         android:padding="9dp"
-        android:visibility="invisible"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="5dp">
+        tools:visibility="visible">
 
     </com.github.mikephil.charting.charts.LineChart>
 x
@@ -44,11 +46,13 @@ x
         android:id="@+id/pieChart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="120dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginTop="70dp"
+        android:layout_marginBottom="65dp"
         android:padding="9dp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
 

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/relLay"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:paddingRight="16dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/background">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="100dp"
+            android:layout_height="120dp"
+            android:visibility="visible"
+            app:srcCompat="@drawable/ic_tab_books"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_toRightOf="@id/image"
+            android:paddingTop="5dp"
+            android:text="Long title that want to break your layout. Long title "
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_below="@id/title"
+            android:layout_toRightOf="@id/image"
+            android:text="Long titleut.ur layout..."
+            android:textColor="@color/grey" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="25dp"
+            android:layout_below="@id/subtitle"
+            android:layout_marginTop="10dp"
+            android:layout_toRightOf="@id/image"
+            android:text="$35" />
+
+    </RelativeLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
