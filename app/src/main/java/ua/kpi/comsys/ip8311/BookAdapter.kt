@@ -36,21 +36,26 @@ class BookAdapter (val context: Context, private val dataSource: MutableList<Boo
     override fun getView(position: Int, convertView: View?, parent: ViewGroup?): View {
         val view = inflater.inflate(R.layout.book_item, parent, false)
 
+        // Fetch Views From Layout
         val titleTextView = view.findViewById(R.id.title) as TextView
         val subtitleTextView = view.findViewById(R.id.subtitle) as TextView
         val priceTextView = view.findViewById(R.id.price) as TextView
         val bookIconImageView = view.findViewById(R.id.image) as ImageView
 
-        val titleTypeFace = ResourcesCompat.getFont(context, R.font.robotocondensed_light)
+//         Set Text Fonts
+        val titleTypeFace = ResourcesCompat.getFont(context, R.font.robotocondensed_regular)
         titleTextView.typeface = titleTypeFace
-        subtitleTextView.typeface = titleTypeFace
-        priceTextView.typeface = titleTypeFace
+//        subtitleTextView.typeface = titleTypeFace
+//        priceTextView.typeface = titleTypeFace
 
         val book = getItem(position) as Book
+
+        // Set Text To TextView Objects
         titleTextView.text = book.title
         subtitleTextView.text = book.subtitle
         priceTextView.text = book.price
 
+        // Set Price Colors If Supported By Android Version
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
             when(priceTextView.text){
                 "PRICELESS" -> priceTextView.setTextColor(context.resources.getColor(R.color.yellow, context.resources.newTheme()))
@@ -58,20 +63,27 @@ class BookAdapter (val context: Context, private val dataSource: MutableList<Boo
             }
         }
 
+        // Set Text Size
         titleTextView.setTextSize(17F)
         subtitleTextView.setTextSize(14F)
         priceTextView.setTextSize(14F)
 
-        val ims: InputStream = context.assets.open(book.image)
-        val d = Drawable.createFromStream(ims, null)
-        bookIconImageView.setImageDrawable(d)
+        // Read Image
+        val drawableImage = readImage(book.image)
+        bookIconImageView.setImageDrawable(drawableImage)
 
-        var ps = -35 // Padding Size
-        bookIconImageView.setPadding(ps,ps,ps,ps)
+        // Set Padding Size
+//        var ps = -35
+//        bookIconImageView.setPadding(ps,ps,ps,ps)
         return view
     }
 
-    fun beautify(book: Book): Book {
+    fun readImage(name: String, ctx: Context = context): Drawable {
+        val ims: InputStream = context.assets.open(name)
+        return Drawable.createFromStream(ims, null)
+    }
+
+    private fun beautify(book: Book): Book {
         var title = book.title
         var subtitle = book.subtitle
         var isbn13 = book.isbn13
@@ -90,6 +102,7 @@ class BookAdapter (val context: Context, private val dataSource: MutableList<Boo
             subtitle = book.subtitle.substring(0, subtitleLength)
             subtitle += "..."
         }
+        if(book.subtitle == "") subtitle = "No description"
 
         val isbn13Pattern = "[0-9]{13}".toRegex()
         if(!isbn13Pattern.matches(book.isbn13)) {

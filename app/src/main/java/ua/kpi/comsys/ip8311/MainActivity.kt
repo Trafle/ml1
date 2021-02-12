@@ -30,12 +30,11 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        //
         var tabLayout : TabLayout = findViewById(R.id.tabLayout)
         TabLayoutMediator(tabLayout, vp2) { tab, _ ->
             vp2.setCurrentItem(tab.position, true)
         }.attach()
-
-        val tabTextFont = ResourcesCompat.getFont(this, R.font.minecrafter)
 
         tabLayout.getTabAt(0)?.apply{
             customView?.setOnClickListener(){
