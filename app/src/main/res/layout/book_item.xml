@@ -29,11 +29,10 @@
                 android:id="@+id/image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
-                android:visibility="visible"
+                android:layout_centerInParent="true"
                 android:background="@android:color/background_light"
-                app:srcCompat="@color/blue" />
+                android:visibility="visible"
+                app:srcCompat="@color/grey" />
 
         </RelativeLayout>
 
@@ -55,6 +54,7 @@
                 android:layout_marginBottom="3dp"
                 android:fontFamily="@font/robotocondensed_regular"
                 android:text="Long title that wants to break your layout. Long title... "
+                android:textSize="17sp"
                 android:textStyle="bold" />
 
             <TextView

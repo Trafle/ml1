@@ -6,32 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <ScrollView
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginBottom="60dp"
-        android:layout_weight="1"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:context=".BooksActivity">
 
-        <TableLayout
-            android:id="@+id/tableLayout"
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/booksRecylerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="60dp"
-            android:isScrollContainer="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:layout_editor_absoluteX="235dp">
+            android:scrollbars="vertical"
+            app:layoutManager="LinearLayoutManager" />
 
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:visibility="visible">
-            </TableRow>
-        </TableLayout>
-    </ScrollView>
+    </FrameLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

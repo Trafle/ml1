@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.TableLayout
 import android.widget.TableRow
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.RecyclerView
 
 class BooksActivity : Fragment () {
     override fun onCreateView(
@@ -23,13 +24,7 @@ class BooksActivity : Fragment () {
 
 fun addTableRows(view: View, ctx: Context): Unit {
     val books = DataReader.parseJson("jsonBooks.txt", ctx)
-    val bookAdapter = BookAdapter(ctx, books)
-    println(books)
-    var tableLayout: TableLayout = view.findViewById(R.id.tableLayout)
-    for (i in books.indices) {
-        val row = TableRow(ctx)
-        row.visibility = View.VISIBLE
-        val bookElement = bookAdapter.getView(i, null, row)
-        tableLayout.addView(bookElement)
-    }
+    var recycler: RecyclerView = view.findViewById(R.id.booksRecylerView)
+    recycler.adapter = BookAdapter(ctx, books)
+    recycler.setHasFixedSize(true)
 }
