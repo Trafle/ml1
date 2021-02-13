@@ -1,5 +1,5 @@
 <resources>
-    <string name="n_83_n_8311">Карпюк Ігор&#13;<br/>Група ІП-83&#13;<br/>ЗК ІП-8311</string>
+    <string name="n_83_n_8311">Карпюк Ігор\nГрупа ІП-83\nЗК ІП-8311</string>
     <string name="app_name">ml1</string>
     <string name="graph">Graph</string>
     <string name="chart">Chart</string>

@@ -6,7 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+    <include
+        android:id="@+id/loadingProp"
+        layout="@layout/loading_layout" />
+
+    <include
+        android:id="@+id/searchBar"
+        layout="@layout/searchbar_layout"
+        tools:layout_editor_absoluteX="20dp"
+        tools:layout_editor_absoluteY="7dp" />
+
     <FrameLayout
+        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="60dp"

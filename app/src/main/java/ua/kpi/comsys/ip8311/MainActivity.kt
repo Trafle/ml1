@@ -13,7 +13,6 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-//        setContentView(R.layout.secondary_activity)
         var vp2 : ViewPager2 = findViewById(R.id.viewpager)
         vp2.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int = 3;

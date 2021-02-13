@@ -1,83 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+
+<RelativeLayout xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/relLay"
+    android:layout_height="120dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:paddingBottom="10dp"
+    android:paddingRight="16dp"
+    android:paddingTop="10dp">
 
     <RelativeLayout
-        android:id="@+id/relLay"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:id="@+id/nestedImageRelLay"
+        android:layout_centerVertical="true"
+        android:layout_height="match_parent"
+        android:layout_width="110dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="16dp"
         android:paddingRight="16dp"
-        android:paddingBottom="10dp"
-        android:paddingTop="10dp"
+        android:paddingTop="5dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <RelativeLayout
-            android:id="@+id/nestedImageRelLay"
-            android:layout_width="110dp"
+        <ImageView
+            android:background="@android:color/background_light"
+            android:id="@+id/image"
+            android:layout_centerInParent="true"
             android:layout_height="match_parent"
-            android:layout_centerVertical="true"
-            android:paddingRight="16dp"
-            android:paddingLeft="16dp"
-            android:paddingTop="5dp"
-            android:paddingBottom="5dp"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:id="@+id/image"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:background="@android:color/background_light"
-                android:visibility="visible"
-                app:srcCompat="@color/grey" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/nestedRelativeLayout"
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_toRightOf="@id/nestedImageRelLay"
-            android:paddingLeft="16dp"
-            android:paddingTop="5dp"
-            android:paddingRight="16dp"
-            android:paddingBottom="10dp"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <TextView
-                android:id="@+id/title"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
-                android:fontFamily="@font/robotocondensed_regular"
-                android:text="Long title that wants to break your layout. Long title... "
-                android:textSize="17sp"
-                android:textStyle="bold" />
-
-            <TextView
-                android:id="@+id/subtitle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/title"
-                android:layout_marginBottom="3dp"
-                android:fontFamily="@font/robotocondensed_light"
-                android:text="Long titleut.ur layout..."
-                android:textColor="@color/grey" />
-
-            <TextView
-                android:id="@+id/price"
-                android:layout_width="match_parent"
-                android:layout_height="25dp"
-                android:layout_below="@id/subtitle"
-                android:fontFamily="@font/robotocondensed_light"
-                android:text="$35"
-                android:textColor="#C80000" />
-        </RelativeLayout>
+            android:visibility="visible"
+            app:srcCompat="@color/grey" />
 
     </RelativeLayout>
 
+    <RelativeLayout
+        android:id="@+id/nestedRelativeLayout"
+        android:layout_height="120dp"
+        android:layout_toRightOf="@id/nestedImageRelLay"
+        android:layout_width="match_parent"
+        android:paddingBottom="10dp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="5dp"
+        app:layout_constraintTop_toTopOf="parent">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <TextView
+            android:fontFamily="@font/robotocondensed_regular"
+            android:id="@+id/title"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_width="match_parent"
+            android:text="Long title that wants to break your layout. Long title... "
+            android:textSize="17sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:fontFamily="@font/robotocondensed_light"
+            android:id="@+id/subtitle"
+            android:layout_below="@id/title"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="3dp"
+            android:layout_width="match_parent"
+            android:text="Long titleut.ur layout..."
+            android:textColor="@color/grey" />
+
+        <TextView
+            android:fontFamily="@font/robotocondensed_light"
+            android:id="@+id/price"
+            android:layout_below="@id/subtitle"
+            android:layout_height="25dp"
+            android:layout_width="match_parent"
+            android:text="$35"
+            android:textColor="#C80000" />
+    </RelativeLayout>
+
+</RelativeLayout>
