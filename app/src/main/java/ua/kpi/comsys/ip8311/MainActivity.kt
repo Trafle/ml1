@@ -2,7 +2,6 @@ package ua.kpi.comsys.ip8311
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -18,9 +17,9 @@ class MainActivity : AppCompatActivity() {
             override fun getItemCount(): Int = 3;
             override fun createFragment(position: Int): Fragment {
                 if (position == 0) {
-                    return BusinessCardActivity()
+                    return BusinessCardFragment()
                 } else if (position == 1) {
-                    return GraphActivity()
+                    return GraphFragment()
                 } else if (position == 2){
                     return BooksActivity()
                 } else {

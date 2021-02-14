@@ -1,13 +1,11 @@
 package ua.kpi.comsys.ip8311
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Filter
-import android.widget.Filterable
-import android.widget.ImageView
-import android.widget.TextView
+import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
@@ -19,7 +17,7 @@ class BookInfo (var title: String = "", var subtitle: String = "", var isbn13: S
                 var rating: String = "", var desc: String = "") {}
 
 data class Book(val title: String = "", val subtitle: String = "", val isbn13: String = "",
-                    val price: String = "", val image: String = "", var bookInfo: BookInfo = BookInfo()) {
+                    val price: String = "", val image: String = "", var bookInfo: BookInfo? = BookInfo()) {
 
     fun validate(book: Book): Book {
 
@@ -82,6 +80,7 @@ class BookAdapter(
     }
 
     class BookViewHolder(private val view: View) : RecyclerView.ViewHolder(view){
+        val relativeLayoutView = view.findViewById(R.id.relLay) as View
         val titleTextView = view.findViewById(R.id.title) as TextView
         val subtitleTextView = view.findViewById(R.id.subtitle) as TextView
         val priceTextView = view.findViewById(R.id.price) as TextView
@@ -99,6 +98,15 @@ class BookAdapter(
         // Beautify the book
         var book = Book()
         book = book.validate(datasetFiltered[position])
+
+        // Set a click event
+        holder.relativeLayoutView.setOnClickListener {
+//            val s = BookInfoActivity(book.bookInfo)
+            val intent = Intent(context, BookInfoActivity::class.java)
+            //                intent.putExtra(book.bookInfo)
+            intent.putExtra("isbn13", book.isbn13)
+            context.startActivity(intent)
+        }
 
         // Set Properties
         holder.titleTextView.text = (book.title)

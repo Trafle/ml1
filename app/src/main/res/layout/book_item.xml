@@ -48,6 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
             android:layout_width="match_parent"
+            android:maxLength="53"
             android:text="Long title that wants to break your layout. Long title... "
             android:textSize="17sp"
             android:textStyle="bold" />
@@ -58,6 +59,7 @@
             android:layout_below="@id/title"
             android:layout_height="wrap_content"
             android:layout_marginBottom="3dp"
+            android:maxLength="53"
             android:layout_width="match_parent"
             android:text="Long titleut.ur layout..."
             android:textColor="@color/grey" />

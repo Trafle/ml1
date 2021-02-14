@@ -6,28 +6,55 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageButton
+        android:id="@+id/addBookButton"
+        android:src="@drawable/add_button_icon"
+        android:layout_width="50dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="15dp"
+        android:paddingEnd="-1dp"
+        android:paddingStart="1dp"
+        android:elevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:contentDescription="Add a book" />
+
+    <SearchView
+        android:id="@+id/searchBar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="7dp"
+        android:layout_marginEnd="70dp"
+        android:background="@drawable/search_bar_style"
+        android:elevation="3.5dp"
+        android:gravity="start"
+        android:queryBackground="@color/white"
+        android:iconifiedByDefault="false"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:targetApi="o" />
 
     <include
         android:id="@+id/loadingProp"
         layout="@layout/loading_layout" />
 
-    <include
-        android:id="@+id/searchBar"
-        layout="@layout/searchbar_layout"
-        tools:layout_editor_absoluteX="20dp"
-        tools:layout_editor_absoluteY="7dp" />
-
     <FrameLayout
-        android:id="@+id/frameLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
         android:layout_marginBottom="60dp"
-        tools:context=".BooksActivity">
+        android:layout_height="match_parent">
 
-        <androidx.recyclerview.widget.RecyclerView
+        <com.tsuryo.swipeablerv.SwipeableRecyclerView
+            android:nestedScrollingEnabled="false"
             android:id="@+id/booksRecylerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            app:rightBgColor="@color/red"
+            app:rightImage="@drawable/trash_ic"
+            app:rightText="Delete"
+            android:clipToPadding="false"
+            android:paddingTop="54dp"
             android:scrollbars="vertical"
             app:layoutManager="LinearLayoutManager" />
 

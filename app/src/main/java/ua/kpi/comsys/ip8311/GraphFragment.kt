@@ -13,13 +13,13 @@ import com.google.android.material.tabs.TabLayout
 import kotlin.math.cos
 import android.graphics.Color
 
-class GraphActivity : Fragment () {
+class GraphFragment : Fragment () {
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.graph_activity, container, false)
+        val view = inflater.inflate(R.layout.layout_graph, container, false)
         return view
     }
 
