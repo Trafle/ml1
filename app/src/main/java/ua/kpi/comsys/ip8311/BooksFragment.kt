@@ -18,7 +18,7 @@ import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.Dispatchers.Main
 
 
-class BooksActivity : Fragment () {
+class BooksFragment : Fragment () {
 
     var adapter: BookAdapter? = null
 
@@ -47,7 +47,7 @@ class BooksActivity : Fragment () {
             }
 
             override fun onSwipedRight(position: Int) {
-                TODO("Not yet implemented")
+                TODO("No functionality required")
             }
         })
 
@@ -56,7 +56,7 @@ class BooksActivity : Fragment () {
             // Read The File In Coroutine
             if (context == null) error("context == null")
             val bookSet = DataReader.parseJson("jsonBooks.txt", requireContext())
-            adapter?.let { addTableRows(view, it, bookSet) }
+            adapter?.let { addRecyclerRows(view, it, bookSet) }
         }
 
         // Set Button Onclick Listener
@@ -92,7 +92,7 @@ class BooksActivity : Fragment () {
     }
 }
 
-fun BooksActivity.initSearchBarEvents(searchBar: SearchView) {
+fun BooksFragment.initSearchBarEvents(searchBar: SearchView) {
 
     searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
 
@@ -108,7 +108,7 @@ fun BooksActivity.initSearchBarEvents(searchBar: SearchView) {
     })
 }
 
-suspend fun BooksActivity.addTableRows(view: View, adapter: BookAdapter, bookSet: MutableList<Book>): Unit {
+suspend fun BooksFragment.addRecyclerRows(view: View, adapter: BookAdapter, bookSet: MutableList<Book>): Unit {
     // Update UI in Main Thread
     withContext(Main) {
 

@@ -3,7 +3,6 @@ package ua.kpi.comsys.ip8311
 import android.content.Context
 import android.graphics.drawable.Drawable
 import com.beust.klaxon.Klaxon
-import java.io.File
 import java.io.InputStream
 
 
@@ -28,7 +27,8 @@ class DataReader {
 
         fun readImage(name: String, ctx: Context): Drawable {
             var fileName: String = name
-            if (fileName == "") fileName = "noimage.png"
+            if (fileName == "") fileName = "bookCovers/noimage.png"
+            else fileName = "bookCovers/$name"
             val ims: InputStream = ctx.assets.open(fileName)
             return Drawable.createFromStream(ims, null)
         }

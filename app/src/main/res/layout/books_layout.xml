@@ -8,14 +8,14 @@
 
     <ImageButton
         android:id="@+id/addBookButton"
-        android:src="@drawable/add_button_icon"
+        android:src="@drawable/add_button"
         android:layout_width="50dp"
         android:layout_height="40dp"
         android:layout_marginTop="7dp"
         android:layout_marginEnd="15dp"
         android:paddingEnd="-1dp"
         android:paddingStart="1dp"
-        android:elevation="5dp"
+        android:elevation="3.5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:contentDescription="Add a book" />

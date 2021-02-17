@@ -6,10 +6,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import java.util.*
-import kotlin.collections.ArrayList
 
 class BookInfo (var title: String = "", var subtitle: String = "", var isbn13: String = "",
                 var price: String = "", var image: String = "", var authors: String = "",
@@ -73,6 +71,9 @@ class BookAdapter(
         var dataset: MutableList<Book>
 ) : RecyclerView.Adapter<BookAdapter.BookViewHolder>(), Filterable {
 
+//    override fun notifyItemInserted
+
+
     var datasetFiltered = mutableListOf<Book>()
 
     init {
@@ -101,9 +102,7 @@ class BookAdapter(
 
         // Set a click event
         holder.relativeLayoutView.setOnClickListener {
-//            val s = BookInfoActivity(book.bookInfo)
             val intent = Intent(context, BookInfoActivity::class.java)
-            //                intent.putExtra(book.bookInfo)
             intent.putExtra("isbn13", book.isbn13)
             context.startActivity(intent)
         }

@@ -1,7 +1,9 @@
 package ua.kpi.comsys.ip8311
 
 import android.os.Bundle
+import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.marginRight
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
@@ -13,15 +15,28 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         var vp2 : ViewPager2 = findViewById(R.id.viewpager)
+
+        // Init margin parameters
+        val booksPageMargins = vp2.layoutParams as ViewGroup.MarginLayoutParams
+        booksPageMargins.setMargins(0,0,30,0)
+        val defaultMarignParams = vp2.layoutParams as ViewGroup.MarginLayoutParams
+        defaultMarignParams.setMargins(0,0,0,0)
+
         vp2.adapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount(): Int = 3;
+            override fun getItemCount(): Int = 4;
             override fun createFragment(position: Int): Fragment {
                 if (position == 0) {
+                    vp2.layoutParams = defaultMarignParams
                     return BusinessCardFragment()
                 } else if (position == 1) {
+                    vp2.layoutParams = defaultMarignParams
                     return GraphFragment()
                 } else if (position == 2){
-                    return BooksActivity()
+                    vp2.layoutParams = booksPageMargins
+                    return BooksFragment()
+                } else if (position == 3){
+                    vp2.layoutParams = defaultMarignParams
+                    return CollageFragment()
                 } else {
                     return error("lol")
                 }
@@ -51,6 +66,12 @@ class MainActivity : AppCompatActivity() {
                 vp2.setCurrentItem(2)
             }
         }?.setIcon(R.drawable.ic_tab_books)?.setText("BOOKS")
+
+        tabLayout.getTabAt(3)?.apply {
+            customView?.setOnClickListener(){
+                vp2.setCurrentItem(3)
+            }
+        }?.setIcon(R.drawable.collage_tab_icon)?.setText("COLLAGE")
     }
 
 }
