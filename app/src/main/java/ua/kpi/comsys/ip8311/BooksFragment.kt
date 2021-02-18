@@ -9,6 +9,7 @@ import android.view.ViewManager
 import android.widget.ImageButton
 import android.widget.SearchView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tsuryo.swipeablerv.SwipeLeftRightCallback
@@ -51,13 +52,9 @@ class BooksFragment : Fragment () {
             }
         })
 
-        // Load the page data in parallel independent of the main thread
-        CoroutineScope(IO).launch {
-            // Read The File In Coroutine
-            if (context == null) error("context == null")
-            val bookSet = DataReader.parseJson("jsonBooks.txt", requireContext())
-            adapter?.let { addRecyclerRows(view, it, bookSet) }
-        }
+        // Initialize the search capability
+        val searchBar = view.findViewById<SearchView>(R.id.searchBar)
+        initSearchBarEvents(searchBar)
 
         // Set Button Onclick Listener
         val addButton: ImageButton = view.findViewById(R.id.addBookButton)
@@ -101,29 +98,37 @@ fun BooksFragment.initSearchBarEvents(searchBar: SearchView) {
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            adapter?.filter?.filter(newText)
-            return newText != null
+            if (newText == null || newText.length < 4) return false
+
+            // Launch search in parallel
+            val loadingProp = view?.findViewById<View>(R.id.loadingProp)
+            loadingProp?.visibility = View.VISIBLE
+            CoroutineScope(IO).launch {
+                val books = DataReader.fetchBooksFromWeb(newText)?.books
+                changeRecyclerRows(loadingProp, books)
+            }
+            return true
         }
 
     })
 }
 
-suspend fun BooksFragment.addRecyclerRows(view: View, adapter: BookAdapter, bookSet: MutableList<Book>): Unit {
-    // Update UI in Main Thread
+suspend fun BooksFragment.changeRecyclerRows(loadingProp: View?, bookSet: MutableList<Book>?): Unit {
+    if(loadingProp == null || bookSet == null) return
+
+    // Update the recycler view
+    adapter?.dataset = bookSet
+    adapter?.datasetFiltered = bookSet
+
+    // Update UI in the Main Thread
     withContext(Main) {
-
-        // Remove the "loading" icon when loaded up
-        val loadingProp: TextView = view.findViewById(R.id.loadingProp)
-        (loadingProp.getParent() as ViewManager).removeView(loadingProp)
-
-        // Initialize the search capability
-        val searchBar = view.findViewById<SearchView>(R.id.searchBar)
-//        searchBar.background = null
-        initSearchBarEvents(searchBar)
-
-        // Add fetched data to the adapter
-        adapter.dataset = bookSet
-        adapter.datasetFiltered = bookSet
-        adapter.notifyDataSetChanged()
+        if (bookSet.size == 0) {
+            Toast.makeText(context, //Context
+                    "No Books Found", // Message to display
+                    Toast.LENGTH_SHORT // Duration of the message, another possible value is Toast.LENGTH_LONG
+            ).show(); //Finally Show the toast
+        }
+        loadingProp.visibility = View.GONE
+        adapter?.notifyDataSetChanged()
     }
 }

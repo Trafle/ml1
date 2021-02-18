@@ -1,6 +1,7 @@
 package ua.kpi.comsys.ip8311
 
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.view.LayoutInflater
@@ -13,7 +14,7 @@ import java.util.*
 
 class CollageAdapter(
         private val context: Context,
-        var imageStack: MutableList<Uri>
+        var imageStack: MutableList<Bitmap>
 ) : RecyclerView.Adapter<CollageAdapter.CollageViewHolder>() {
 
     class CollageViewHolder(private val view: View) : RecyclerView.ViewHolder(view){
@@ -63,7 +64,7 @@ class CollageAdapter(
 ////        params.
 //
         holder.imageView.layoutParams = params
-        holder.imageView.setImageURI(imageStack[position])
+        holder.imageView.setImageBitmap(imageStack[position])
 
         // Assign the properties
 //        holder.rowNumber = rowNumber

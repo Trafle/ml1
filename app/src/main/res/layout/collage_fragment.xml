@@ -6,6 +6,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <include
+        android:id="@+id/loadingProp"
+        layout="@layout/loading_layout" />
+
     <ImageButton
         android:id="@+id/addPic"
         android:src="@drawable/add_button"

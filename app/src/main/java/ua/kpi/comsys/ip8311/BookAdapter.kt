@@ -2,69 +2,21 @@ package ua.kpi.comsys.ip8311
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.BitmapFactory
+import android.os.Build
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.annotation.RequiresApi
+import androidx.core.view.setPadding
 import androidx.recyclerview.widget.RecyclerView
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import java.util.*
-
-class BookInfo (var title: String = "", var subtitle: String = "", var isbn13: String = "",
-                var price: String = "", var image: String = "", var authors: String = "",
-                var publisher: String = "", var pages: String = "", var year: String = "",
-                var rating: String = "", var desc: String = "") {}
-
-data class Book(val title: String = "", val subtitle: String = "", val isbn13: String = "",
-                    val price: String = "", val image: String = "", var bookInfo: BookInfo? = BookInfo()) {
-
-    fun validate(book: Book): Book {
-
-        // Declare Book Properties
-        var title = book.title
-        var subtitle = book.subtitle
-        var isbn13 = book.isbn13
-        var price = book.price
-        var image: String = book.image
-
-        // Set Length Limits For Text Views
-        val titleLength = 50
-        val subtitleLength = 75
-
-        if (book.title.length > titleLength) {
-            title = book.title.substring(0, titleLength)
-            title += "..."
-        }
-
-        if (book.subtitle.length > subtitleLength) {
-            subtitle = book.subtitle.substring(0, subtitleLength)
-            subtitle += "..."
-        }
-
-        if (book.subtitle == "") subtitle = "No description"
-
-        val isbn13Pattern = "[0-9]{13}".toRegex()
-        if (!isbn13Pattern.matches(book.isbn13)) {
-            isbn13 = "NO ISBN13"
-        }
-
-        val pricePattern = "[a-zA-Z]*".toRegex()
-        if (pricePattern.matches(book.price)) {
-            price = "PRICELESS"
-        } else {
-            price = book.price
-        }
-        //        price = book.price.capitalize()
-
-        val imagePattern = "Image_[0-9]{2}.png".toRegex()
-        if (!imagePattern.matches(book.image)) {
-            image = "noimage.png"
-        }
-        image =  image.decapitalize()
-
-
-        return Book(title, subtitle, isbn13, price, image)
-    }
-}
 
 class BookAdapter(
         private val context: Context,
@@ -94,6 +46,7 @@ class BookAdapter(
         return BookViewHolder(bookItemLayout)
     }
 
+    @RequiresApi(Build.VERSION_CODES.M)
     override fun onBindViewHolder(holder: BookViewHolder, position: Int) {
 
         // Beautify the book
@@ -111,15 +64,18 @@ class BookAdapter(
         holder.titleTextView.text = (book.title)
         holder.subtitleTextView.text = book.subtitle
         holder.priceTextView.text = (book.price)
-        holder.bookIconImageView.setImageDrawable(DataReader.readImage(book.image, context))
 
-        // Set Price Colors If Supported By Android Version
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
-            when(holder.priceTextView.text){
-                "PRICELESS" -> holder.priceTextView.setTextColor(context.resources.getColor(R.color.yellow, context.resources.newTheme()))
-                else -> holder.priceTextView.setTextColor(context.resources.getColor(R.color.red, context.resources.newTheme()))
+        if (book.image == "") holder.bookIconImageView.setImageBitmap(BitmapFactory.decodeStream(context.assets.open("bookCovers/noimage.png")))
+        else {
+            CoroutineScope(IO).launch {
+                val bitmap = DataReader.getBitmapFromURL(book.image)
+                withContext(Dispatchers.Main) {
+                    holder.bookIconImageView.setPadding(-50)
+                    holder.bookIconImageView.setImageBitmap(bitmap)
+                }
             }
         }
+        holder.priceTextView.setTextColor(context.resources.getColor(R.color.red, context.resources.newTheme()))
     }
 
     override fun getFilter(): Filter {
