@@ -39,10 +39,6 @@ fun stylizeSpan(title: String, text: String?): Spannable {
 }
 
 suspend fun fillInfo(mainLayout: View, isbn13: String, loadingProp: View): Boolean {
-
-    // Delete the loading prop
-    (loadingProp.parent as ViewManager).removeView(loadingProp)
-
     val bookInfo = DataReader.fetchBookInfoFromWeb(isbn13)
     val bitmapImage = bookInfo?.let { DataReader.getBitmapFromURL(it.image) }
 
