@@ -1,10 +1,7 @@
 package ua.kpi.comsys.ip8311
 
-import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.graphics.drawable.Drawable
-import com.beust.klaxon.Json
 import com.beust.klaxon.Klaxon
 import java.io.InputStream
 import java.net.URL
@@ -70,12 +67,16 @@ class BookInfo(var title: String = "", var subtitle: String = "", var isbn13: St
 
 class WebBooksObj(val books: MutableList<Book> = mutableListOf<Book>(), val error: String = "", val page: String = "", val total: String = "")
 
+
+
 class DataReader {
+
     companion object {
+
         fun fetchBooksFromWeb(searchText: String): WebBooksObj? {
             // Check if the string is at least 3 chars
-            if(searchText.length < 4) return null
-//            TODO("Check for special characters")
+            if(searchText.length < 3 || containsSpecChars(searchText)) return null
+
 
             val url = "https://api.itbook.store/1.0/search/" + searchText
             val response = createURLConnection(url) ?: return null
@@ -88,7 +89,6 @@ class DataReader {
             // Check if the isbn13 is valid
             val serialPattern = "[0-9]{13}".toRegex()
             if (!serialPattern.matches(isbn13))  return null
-//            TODO("Check for special characters")
 
             val url = "https://api.itbook.store/1.0/books/" + isbn13
             val response = createURLConnection(url) ?: return null
@@ -117,25 +117,19 @@ class DataReader {
             val response = openConnection.getInputStream().bufferedReader().use { it.readText() } // Read the response as a string
             return response
         }
+
+        fun containsSpecChars(string: String): Boolean {
+            // If there is something except latin letters and spaces return true
+            val pattern = Regex("""[^a-zA-Z .,]""")
+            return pattern.containsMatchIn(string)
+        }
     }
 }
 
-data class Hook(
-    @Json(name = "id")
-    val id: String,
-    @Json(name = "pageURL")
-    val pageURL: String,
-    @Json(name = "type")
-    val type: String
-)
-
-
-fun main () {
-//    val images = DataReader.fetchImageInfoFromWeb("hot+summer", 24)
-//
-//    print("shit")
-
-
-//    print(imageResponse)
-}
+//fun main () {
+//    print("-= ${DataReader.containsSpecChars("-=")}\n")
+//    print("o.s-d ${DataReader.containsSpecChars("o.s-d")}\n")
+//    print("\\sdf ${DataReader.containsSpecChars("\\sdf")}\n")
+//    print("sad asd ${DataReader.containsSpecChars("sad as, .d")}\n")
+//}
 

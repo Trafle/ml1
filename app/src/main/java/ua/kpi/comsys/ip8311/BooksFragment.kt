@@ -98,7 +98,7 @@ fun BooksFragment.initSearchBarEvents(searchBar: SearchView) {
         }
 
         override fun onQueryTextChange(newText: String?): Boolean {
-            if (newText == null || newText.length < 4) return false
+            if (newText == null || newText.length < 3) return false
 
             // Launch search in parallel
             val loadingProp = view?.findViewById<View>(R.id.loadingProp)
