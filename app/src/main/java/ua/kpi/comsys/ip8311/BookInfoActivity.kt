@@ -7,7 +7,6 @@ import android.text.Spannable
 import android.text.SpannableString
 import android.text.style.ForegroundColorSpan
 import android.view.View
-import android.view.ViewManager
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.annotation.RequiresApi
@@ -39,8 +38,8 @@ fun stylizeSpan(title: String, text: String?): Spannable {
 }
 
 suspend fun fillInfo(mainLayout: View, isbn13: String, loadingProp: View): Boolean {
-    val bookInfo = DataReader.fetchBookInfoFromWeb(isbn13)
-    val bitmapImage = bookInfo?.let { DataReader.getBitmapFromURL(it.image) }
+    val bookInfo = DataManager.fetchBookInfoFromWeb(isbn13)
+    val bitmapImage = bookInfo?.let { DataManager.getBitmapFromURL(it.image) }
 
     withContext(Dispatchers.Main) {
         mainLayout.visibility = View.VISIBLE

@@ -23,9 +23,6 @@ class BookAdapter(
         var dataset: MutableList<Book>
 ) : RecyclerView.Adapter<BookAdapter.BookViewHolder>(), Filterable {
 
-//    override fun notifyItemInserted
-
-
     var datasetFiltered = mutableListOf<Book>()
 
     init {
@@ -65,10 +62,10 @@ class BookAdapter(
         holder.subtitleTextView.text = book.subtitle
         holder.priceTextView.text = (book.price)
 
-        if (book.image == "") holder.bookIconImageView.setImageBitmap(BitmapFactory.decodeStream(context.assets.open("bookCovers/noimage.png")))
+        if (book.image == "") holder.bookIconImageView.setImageBitmap(BitmapFactory.decodeStream(context.assets.open("no_picture.png")))
         else {
             CoroutineScope(IO).launch {
-                val bitmap = DataReader.getBitmapFromURL(book.image)
+                val bitmap = DataManager.getBitmapFromURL(book.image)
                 withContext(Dispatchers.Main) {
                     holder.bookIconImageView.setPadding(-50)
                     holder.bookIconImageView.setImageBitmap(bitmap)

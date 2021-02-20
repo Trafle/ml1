@@ -3,24 +3,29 @@ package ua.kpi.comsys.ip8311
 import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.marginRight
 import androidx.fragment.app.Fragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
+import com.tomclaw.cache.DiskLruCache
 
 class MainActivity : AppCompatActivity() {
+
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        // Init cache
+        cache = DiskLruCache.create(cacheDir, CACHE_SIZE) ?: error("cache is null")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         var vp2 : ViewPager2 = findViewById(R.id.viewpager)
 
         // Init margin parameters
         val booksPageMargins = vp2.layoutParams as ViewGroup.MarginLayoutParams
-        booksPageMargins.setMargins(0,0,30,0)
+        booksPageMargins.setMargins(0, 0, 30, 0)
         val defaultMarignParams = vp2.layoutParams as ViewGroup.MarginLayoutParams
-        defaultMarignParams.setMargins(0,0,0,0)
+        defaultMarignParams.setMargins(0, 0, 0, 0)
 
         vp2.adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int = 4;

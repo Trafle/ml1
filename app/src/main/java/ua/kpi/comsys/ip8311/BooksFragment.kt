@@ -5,10 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewManager
 import android.widget.ImageButton
 import android.widget.SearchView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,18 +30,18 @@ class BooksFragment : Fragment () {
 
         // Bind the Adapter and Layout manager to recycler
         val recycler: SwipeableRecyclerView = view.findViewById(R.id.booksRecylerView)
-//        recycler.setNestedScrollingEnabled(false)
         val loManager = LinearLayoutManager(context)
-        var dataset = mutableListOf<Book>()
+        val dataset = mutableListOf<Book>()
         adapter = context?.let { BookAdapter(it, dataset) }
         recycler.adapter = adapter
-        recycler.layoutManager  = loManager
+        recycler.layoutManager = loManager
         recycler.setHasFixedSize(true)
 
         // Set Swipe To Delete Listener
         recycler.setListener(object : SwipeLeftRightCallback.Listener {
             override fun onSwipedLeft(position: Int) {
                 adapter?.dataset?.removeAt(position)
+                adapter?.dataset?.get(position)?.let { removeBook(it.title) }
                 adapter?.notifyItemRemoved(position)
             }
 
@@ -63,11 +61,10 @@ class BooksFragment : Fragment () {
             startActivityForResult(i, 1)
         }
 
-        return view
-    }
+//        val dbHandler = context?.let { MyDBHandler(it, null, null, 1) }
+//        dbHandler?.dropTablesIfExist()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        return view
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -78,7 +75,9 @@ class BooksFragment : Fragment () {
         val subtitle = data?.getStringExtra("subtitle")
         var price = data?.getStringExtra("price")
 
-        if(title == null || subtitle == null || price == null) {return}
+        if (title == null || subtitle == null || price == null) {
+            return
+        }
 
         // create a book object
         price = "$$price"
@@ -87,48 +86,79 @@ class BooksFragment : Fragment () {
         adapter?.dataset?.add(book)
         adapter?.dataset?.let { adapter?.notifyItemInserted(it.size) }
     }
-}
 
-fun BooksFragment.initSearchBarEvents(searchBar: SearchView) {
+    fun addBookToDB(book: Book): Boolean {
+        val dbHandler = context?.let { MyDBHandler(it, null, null, 1) } ?: return false
+        return dbHandler.addBook(book)
+    }
 
-    searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+    fun findBooksInDB(titlePiece: String): MutableList<Book>? {
+        val dbHandler = context?.let { MyDBHandler(it, null, null, 1) } ?: return null
+        return dbHandler.findBooks(titlePiece)
+    }
 
-        override fun onQueryTextSubmit(query: String?): Boolean {
-            return query != null
-        }
+    fun findBookInDB(title: String): Book? {
+        val dbHandler = context?.let { MyDBHandler(it, null, null, 1) }
+        val book = dbHandler?.findBook(title) ?: return null
+        return book
+    }
 
-        override fun onQueryTextChange(newText: String?): Boolean {
-            if (newText == null || newText.length < 3) return false
+    fun removeBook(title: String) {
+        val dbHandler = context?.let { MyDBHandler(it, null, null, 1) }
+        dbHandler?.deleteBook(title)
+    }
 
-            // Launch search in parallel
-            val loadingProp = view?.findViewById<View>(R.id.loadingProp)
-            loadingProp?.visibility = View.VISIBLE
-            CoroutineScope(IO).launch {
-                val books = DataReader.fetchBooksFromWeb(newText)?.books
-                changeRecyclerRows(loadingProp, books)
+    fun BooksFragment.initSearchBarEvents(searchBar: SearchView) {
+
+        searchBar.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return query != null
             }
-            return true
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText == "") {
+                    adapter?.dataset?.clear()
+                    adapter?.datasetFiltered?.clear()
+                    adapter?.notifyDataSetChanged()
+                }
+                if (newText == null || newText.length < 3) return false
+
+                // Launch search in parallel
+                val loadingProp = view?.findViewById<View>(R.id.loadingProp)
+                loadingProp?.visibility = View.VISIBLE
+                CoroutineScope(IO).launch {changeRecyclerRows(loadingProp, newText)}
+                return true
+            }
+
+        })
+    }
+
+    suspend fun BooksFragment.changeRecyclerRows(loadingProp: View?, newText: String): Unit {
+
+        // First check if there are such books in caches and if not - fetch from the web
+        var bookSet = findBooksInDB(newText)
+        if (bookSet == null) {
+            bookSet = DataManager.fetchBooksFromWeb(newText)?.books
+            // Add the newly fetched books to the cache
+            if (bookSet != null) {
+                for(book in bookSet) {
+                    addBookToDB(book)
+                }
+            }
         }
 
-    })
-}
-
-suspend fun BooksFragment.changeRecyclerRows(loadingProp: View?, bookSet: MutableList<Book>?): Unit {
-    if(loadingProp == null || bookSet == null) return
-
-    // Update the recycler view
-    adapter?.dataset = bookSet
-    adapter?.datasetFiltered = bookSet
-
-    // Update UI in the Main Thread
-    withContext(Main) {
-        if (bookSet.size == 0) {
-            Toast.makeText(context, //Context
-                    "No Books Found", // Message to display
-                    Toast.LENGTH_SHORT // Duration of the message, another possible value is Toast.LENGTH_LONG
-            ).show(); //Finally Show the toast
+        // Update the adapter
+        if (bookSet != null) {
+            adapter?.dataset = bookSet
+            adapter?.datasetFiltered = bookSet
         }
-        loadingProp.visibility = View.GONE
-        adapter?.notifyDataSetChanged()
+
+        // Update UI in the Main Thread
+        withContext(Main) {
+            loadingProp?.visibility = View.GONE
+            adapter?.notifyDataSetChanged()
+            if (bookSet?.size == 0 || bookSet == null) Toast.makeText(context,"No Books Found", Toast.LENGTH_SHORT).show()
+        }
     }
 }

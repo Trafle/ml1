@@ -8,19 +8,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.ViewManager
 import android.widget.ImageButton
-import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import java.io.File
 import android.content.Context
 import android.provider.MediaStore
-import java.io.FileInputStream
+import android.widget.Toast
 
 
 class CollageFragment : Fragment() {
@@ -64,9 +61,11 @@ class CollageFragment : Fragment() {
             startActivityForResult(photoPickerIntent, REQUEST_IMAGE_CODE);
         }
 
-        // Async read images from the web
+        // Async read images from the cache or web
         val ctx = context
         CoroutineScope(Dispatchers.IO).launch {
+            // First check if there are images in the cache
+
             // Fetch The images In Coroutine
             if (context == null) error("context == null")
             adapter?.let {
@@ -94,22 +93,26 @@ class CollageFragment : Fragment() {
 
 // Fills the recycler view with images asynchronously
 suspend fun fillImages(adapter: CollageAdapter, view: View, ctx: Context): Boolean {
-    val imageInfo = DataReader.fetchImageInfoFromWeb("hot+summer", 24)?.hits ?: return false
+    val imageInfo = DataManager.fetchImageInfoFromCacheOrWeb("hot+summer", 24, ctx)
 
     // Add the retrieved images to the view
-    for((index, image) in imageInfo.withIndex()) {
-        // If no bitmap could be fetched, use "no_picture.png" from assets
-        val bitmap = imageInfo[index].previewURL.let { DataReader.getBitmapFromURL(it) } ?:
-        BitmapFactory.decodeStream(ctx.assets.open("no_picture.png"))
-        adapter.imageStack.add(bitmap)
+    if (imageInfo != null) {
+        for((index, image) in imageInfo.withIndex()) {
+            // If no bitmap could be fetched, use "no_picture.png" from assets
+            val bitmap = imageInfo[index].previewURL.let { DataManager.getBitmapFromURL(it) } ?:
+            BitmapFactory.decodeStream(ctx.assets.open("no_picture.png"))
+            adapter.imageStack.add(bitmap)
+        }
     }
 
     withContext(Dispatchers.Main) {
         // Hiding the loading prop
         val loadingProp: View = view.findViewById(R.id.loadingProp)
         loadingProp.visibility = View.GONE
-
         adapter.notifyDataSetChanged()
+
+        // Notify if no images were retrieved
+        if (imageInfo == null) Toast.makeText(ctx,"No Collage Images Found", Toast.LENGTH_SHORT).show()
     }
     return true
 }

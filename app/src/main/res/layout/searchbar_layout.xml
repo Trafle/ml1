@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<SearchView
+<SearchView android:id="@+id/searchBar"
     android:layout_width="match_parent"
     android:layout_height="40dp"
+    android:layout_marginStart="15dp"
     android:layout_marginTop="7dp"
     android:layout_marginEnd="70dp"
-    android:layout_marginStart="15dp"
-    android:layout_weight="85"
     android:background="@drawable/search_bar_style"
     android:elevation="3.5dp"
     android:gravity="start"
+    android:queryBackground="@color/white"
     android:iconifiedByDefault="false"
-    xmlns:android="http://schemas.android.com/apk/res/android" />
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"
+    tools:targetApi="o"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools" />

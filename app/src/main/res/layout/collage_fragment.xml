@@ -10,27 +10,13 @@
         android:id="@+id/loadingProp"
         layout="@layout/loading_layout" />
 
-    <ImageButton
-        android:id="@+id/addPic"
-        android:src="@drawable/add_button"
-        android:layout_width="50dp"
-        android:layout_height="40dp"
-        android:layout_marginTop="7dp"
-        android:layout_marginEnd="15dp"
-        android:paddingEnd="-1dp"
-        android:paddingStart="1dp"
-        android:elevation="3.5dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="Add a picture" />
+    <include layout="@layout/add_button_layout"
+        android:id="@+id/addPic"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/collageRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="54dp"
-        android:paddingBottom="70dp"
-        android:clipToPadding="false"
         android:layout_marginBottom="60dp"
         />
 

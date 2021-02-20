@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Button xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<ImageButton android:id="@+id/addBookButton"
+    android:src="@drawable/add_button"
     android:layout_width="50dp"
     android:layout_height="40dp"
-    android:layout_marginEnd="361dp"
+    android:layout_marginTop="7dp"
     android:background="@drawable/search_bar_style"
+    android:layout_marginEnd="15dp"
+    android:paddingEnd="-1dp"
+    android:paddingStart="1dp"
     android:elevation="3.5dp"
     app:layout_constraintEnd_toEndOf="parent"
-    tools:layout_editor_absoluteY="7dp" />
+    app:layout_constraintTop_toTopOf="parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto" />
 
