@@ -12,13 +12,11 @@ import com.tomclaw.cache.DiskLruCache
 
 class MainActivity : AppCompatActivity() {
 
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        // Init cache
-        cache = DiskLruCache.create(cacheDir, CACHE_SIZE) ?: error("cache is null")
+        cache = DiskLruCache.create(cacheDir, CACHE_SIZE)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
         var vp2 : ViewPager2 = findViewById(R.id.viewpager)
 
         // Init margin parameters
